@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 
 const request = require('../util/request');
 
+
 class Episode {
   constructor(object) {
     Object.assign(this, object);
@@ -29,7 +30,11 @@ class Episode {
   }
 
   static fromUrl(url) {
-    return request(url).then(resp => Episode.fromBody(resp.body));
+    return request(url).then(resp => {
+      const ep = Episode.fromBody(resp.body);
+      ep.url = url;
+      return ep;
+    });
   }
 
   static fromId(id, number) {

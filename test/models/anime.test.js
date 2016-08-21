@@ -22,11 +22,11 @@ test('can view by name', t => (
   }))
 );
 
-test('can get episode list', () => (
-  Anime.fromId(helper.TEST_ANIME_ID).then(anime => {
+test('can get episode list', t => (
+  Anime.fromId(helper.TEST_ANIME_ID).then(anime => (
     anime.getEpisodes().then(episodes => {
-      expect(episodes).to.be.an(Array);
-      expect(episodes.length).to.be.greaterThan(0);
-    });
-  }))
+      t.truthy(typeof episodes.length !== 'undefined');
+      t.truthy(episodes.length > 0);
+    })
+  )))
 );
