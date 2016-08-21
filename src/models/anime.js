@@ -119,15 +119,10 @@ class Anime {
   }
 
   static fromName(name) {
-    return Anime.search(name).then(results => {
-      if (results.length > 0) {
-        return Anime.fromSearchResult(results[0]);
-      }
-
-      return null;
-    });
+    return Anime.search(name).then(results =>
+      Anime.fromSearchResult(results[0])
+    );
   }
-
 }
 
 module.exports = Anime;

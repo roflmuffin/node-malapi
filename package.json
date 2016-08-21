@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava test/**/*.test.js",
+    "test-coverage": "nyc npm test"
   },
   "author": "",
   "license": "ISC",
@@ -14,10 +15,15 @@
     "got": "^6.3.0"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
+    "coveralls": "^2.11.12",
     "eslint": "^3.3.1",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-plugin-import": "^1.13.0",
     "eslint-plugin-jsx-a11y": "^2.1.0",
-    "eslint-plugin-react": "^6.1.2"
+    "eslint-plugin-react": "^6.1.2",
+    "expect": "^1.20.2",
+    "expect.js": "^0.3.1",
+    "nyc": "^8.1.0"
   }
 }

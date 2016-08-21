@@ -1,5 +1,5 @@
-const { name } = require(`${process.cwd()}/package.json`);
-const { version } = require(`${process.cwd()}/package.json`);
+const { name } = require('../../package.json');
+const { version } = require('../../package.json');
 
 const debug = require('debug')(`${name}:request`);
 const got = require('got');
