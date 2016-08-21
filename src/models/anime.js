@@ -113,11 +113,8 @@ class Anime {
   static getList(username) {
     return request('/malappinfo.php', { query: { u: username, status: 'all', type: 'anime' } })
     .then(resp => (
-      new Promise((resolve, reject) => {
+      new Promise((resolve) => {
         parser.parseString(resp.body, (err, parsed) => {
-          if (err) {
-            reject(err);
-          }
           if (typeof parsed.error !== 'undefined') {
             resolve(null);
           }
