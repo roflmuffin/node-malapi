@@ -1,0 +1,22 @@
+const { name } = require(`${process.cwd()}/package.json`);
+const { version } = require(`${process.cwd()}/package.json`);
+
+const debug = require('debug')(`${name}:request`);
+const got = require('got');
+
+const userAgent = `${name}/${version} (github link)`;
+
+const baseUrl = 'http://myanimelist.net';
+
+module.exports = function request(url = '/', opts = {}) {
+  let reqUrl = url;
+  if (url.indexOf(baseUrl) > -1) {
+    reqUrl = url.replace(baseUrl, '');
+  }
+
+  debug(`Requesting ${reqUrl}, options: ${JSON.stringify(opts)}`);
+
+  return got(`http://myanimelist.net${reqUrl}`, Object.assign(opts, {
+    'User-Agent': userAgent,
+  }));
+};
