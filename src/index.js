@@ -1,4 +1,5 @@
 const Anime = require('./models/anime');
+const Episode = require('./models/episode');
 
 const debug = require('debug')('test');
 
@@ -14,4 +15,6 @@ const debug = require('debug')('test');
 //   Anime.fromSearchResult(results[0]).then(anime => debug(anime));
 // });
 
-Anime.fromName('Full Metal Alchemist').then(anime => debug(anime));
+// Anime.fromName('Full Metal Alchemist').then(anime => debug(anime));
+
+Episode.fromId(31229, 4).then(ep => debug(ep));

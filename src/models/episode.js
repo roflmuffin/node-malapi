@@ -32,6 +32,10 @@ class Episode {
     return request(url).then(resp => Episode.fromBody(resp.body));
   }
 
+  static fromId(id, number) {
+    return Episode.fromUrl(`/anime/${id}/_/episode/${number}`);
+  }
+
 }
 
 module.exports = Episode;
