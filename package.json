@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "ava test/**/*.test.js",
-    "test-coverage": "nyc npm test"
+    "test-coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "author": "",
   "license": "ISC",
