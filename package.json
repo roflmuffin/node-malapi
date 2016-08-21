@@ -1,14 +1,14 @@
 {
   "name": "malapi",
   "version": "0.0.1",
-  "description": "",
+  "description": "Node MyAnimeList API ===",
   "main": "src/index.js",
   "scripts": {
     "test": "ava test/**/*.test.js",
     "test-coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Roflmuffin",
+  "license": "MIT",
   "dependencies": {
     "cheerio": "^0.20.0",
     "debug": "^2.2.0",
@@ -25,5 +25,25 @@
     "expect": "^1.20.2",
     "expect.js": "^0.3.1",
     "nyc": "^8.1.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roflmuffin/node-malapi.git"
+  },
+  "keywords": [
+    "myanimelist",
+    "anime",
+    "my",
+    "anime",
+    "list",
+    "scraper",
+    "information"
+  ],
+  "bugs": {
+    "url": "https://github.com/roflmuffin/node-malapi/issues"
+  },
+  "homepage": "https://github.com/roflmuffin/node-malapi#readme"
 }
