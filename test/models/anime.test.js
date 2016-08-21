@@ -36,3 +36,15 @@ test('can be missing sidebar information (alternative titles)', t => (
     t.is(anime.alternativeTitles.english, null);
   }))
 );
+
+test('can view a valid users list', t => (
+  Anime.getList(helper.TEST_LIST_VALID).then(list => {
+    t.is(list.myinfo.user_name, 'roflmuffin');
+  })
+));
+
+test('an invalid users list is null', t => (
+  Anime.getList(helper.TEST_LIST_INVALID).then(list => {
+    t.is(list, null);
+  })
+));

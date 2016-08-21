@@ -2,11 +2,17 @@ const Episode = require('./episode');
 
 const cheerio = require('cheerio');
 const debug = require('debug')('malapi:anime');
+const xml2js = require('xml2js');
 
 const request = require('../util/request');
 const utils = require('../util/parsing');
 
 const searchUrl = '/anime.php?c[]=a&c[]=b&c[]=c&c[]=d&c[]=e&c[]=f&c[]=g';
+
+const parser = new xml2js.Parser({
+  explicitRoot: false,
+  explicitArray: false,
+});
 
 class Anime {
   constructor(object) {
@@ -102,6 +108,23 @@ class Anime {
     result.adaptations = adaptations.get();
 
     return new Anime(result);
+  }
+
+  static getList(username) {
+    return request('/malappinfo.php', { query: { u: username, status: 'all', type: 'anime' } })
+    .then(resp => (
+      new Promise((resolve, reject) => {
+        parser.parseString(resp.body, (err, parsed) => {
+          if (err) {
+            reject(err);
+          }
+          if (typeof parsed.error !== 'undefined') {
+            resolve(null);
+          }
+          resolve(parsed);
+        });
+      })
+    ));
   }
 
   static fromUrl(url) {

@@ -8,4 +8,7 @@ module.exports = {
 
   // Test for anime that contains missing sidebar information.
   TEST_ANIME_MISSINGINFO: process.env.TEST_ANIME_MISSINGINFO || 32998,
+
+  TEST_LIST_VALID: process.env.TEST_LIST_VALID || 'roflmuffin',
+  TEST_LIST_INVALID: process.env.TEST_LIST_INVALID || 'noonecouldeverhavethisusername',
 };
