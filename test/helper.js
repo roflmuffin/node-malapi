@@ -4,4 +4,6 @@ module.exports = {
   TEST_ANIME_URL: process.env.TEST_ANIME_URL || '/anime/28891/',
 
   TEST_EPISODE_NAME: process.env.TEST_EPISODE_NAME || 'Let\'s Go to Tokyo!',
+
+  TEST_ANIME_MISSINGINFO: process.env.TEST_ANIME_MISSINGINFO || 32998,
 };

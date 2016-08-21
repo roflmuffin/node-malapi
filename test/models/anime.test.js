@@ -30,3 +30,9 @@ test('can get episode list', t => (
     })
   )))
 );
+
+test('can be missing sidebar information (alternative titles)', t => (
+  Anime.fromId(helper.TEST_ANIME_MISSINGINFO).then(anime => {
+    t.is(anime.alternativeTitles.english, null);
+  }))
+);
