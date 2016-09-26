@@ -6,7 +6,7 @@ const got = require('got');
 
 const userAgent = `${name}/${version} (github link)`;
 
-const baseUrl = 'http://myanimelist.net';
+const baseUrl = 'https://myanimelist.net';
 
 module.exports = function request(url = '/', opts = {}) {
   let reqUrl = url;
@@ -16,7 +16,7 @@ module.exports = function request(url = '/', opts = {}) {
 
   debug(`Requesting ${reqUrl}, options: ${JSON.stringify(opts)}`);
 
-  return got(`http://myanimelist.net${reqUrl}`, Object.assign(opts, {
+  return got(`https://myanimelist.net${reqUrl}`, Object.assign(opts, {
     'User-Agent': userAgent,
   }));
 };
