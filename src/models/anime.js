@@ -107,6 +107,41 @@ class Anime {
 
     result.adaptations = adaptations.get();
 
+    const characters = $('h2:contains("Characters & Voice Actors")')
+      .nextAll('table')
+      .find('td:nth-child(2) a[href*="/character/"]')
+      .map((i, el) => {
+        var actorEl = $(el).parent('td').next().find('a');
+        var character = {
+          name: $(el).text(),
+          role: $(el).next().text(),
+          actor: $(actorEl).text(),
+          language: $(actorEl).siblings('small').text(),
+        };
+        return character;
+      });
+
+    result.characters = characters.get();
+
+    const staff = $('h2:contains("Staff")')
+      .nextAll('table')
+      .find('td:nth-child(2) a[href*="/people/"]')
+      .map((i, el) => {
+        var staff = {
+          name: $(el).text(),
+          role: $(el).siblings('small').text().split(', '),
+        };
+        return staff;
+      });
+
+    result.staff = staff.get();
+
+    const studios = $('span:contains("Studios:")').nextAll('a').map((i, el) => {
+      return $(el).text()
+    });
+
+    result.studios = studios.get();
+
     return new Anime(result);
   }
 
