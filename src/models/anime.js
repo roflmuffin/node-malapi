@@ -2,17 +2,11 @@ const Episode = require('./episode');
 
 const cheerio = require('cheerio');
 const debug = require('debug')('malapi:anime');
-const xml2js = require('xml2js');
 
 const request = require('../util/request');
 const utils = require('../util/parsing');
 
 const searchUrl = '/anime.php?c[]=a&c[]=b&c[]=c&c[]=d&c[]=e&c[]=f&c[]=g';
-
-const parser = new xml2js.Parser({
-  explicitRoot: false,
-  explicitArray: false,
-});
 
 class Anime {
   constructor(object) {
@@ -23,7 +17,7 @@ class Anime {
     return request(this.episodesLink).then(resp => {
       const $ = cheerio.load(resp.body);
 
-      const episodes = $('table.episode_list tr.episode-list-data').map((i, el) => (
+      const episodes = $('table.episode_list.ascend tr.episode-list-data').map((i, el) => (
         new Episode({
           alt: $(el).find('.episode-title span').text().trim(),
           name: $(el).find('.episode-title a').text().trim(),
@@ -143,20 +137,6 @@ class Anime {
     result.studios = studios.get();
 
     return new Anime(result);
-  }
-
-  static getList(username) {
-    return request('/malappinfo.php', { query: { u: username, status: 'all', type: 'anime' } })
-    .then(resp => (
-      new Promise((resolve) => {
-        parser.parseString(resp.body, (err, parsed) => {
-          if (typeof parsed.error !== 'undefined') {
-            resolve(null);
-          }
-          resolve(parsed);
-        });
-      })
-    ));
   }
 
   static fromUrl(url) {
