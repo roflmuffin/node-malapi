@@ -1,7 +1,7 @@
 {
   "name": "malapi",
-  "version": "0.0.2",
-  "description": "Node MyAnimeList API ===",
+  "version": "0.0.3",
+  "description": "Node MyAnimeList API",
   "main": "src/index.js",
   "scripts": {
     "test": "ava test/**/*.test.js",
