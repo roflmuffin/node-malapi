@@ -18,13 +18,27 @@ class Episode {
   static fromBody(body) {
     const $ = cheerio.load(body);
 
+    const airedMatch = $('table div.fn-grey2').text()
+      .match(/((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]+, [0-9]{4})\(([A-Z]+)\)/);
+    var timeZone = 'GMT';
+
     const result = {
       number: parseInt($('table h2.fs18 span').text().replace(/[^\d\.\-]/g, ''), 10),
       name: $('table h2.fs18').get(0).childNodes[2].nodeValue,
       alt: $('table h2.fs18').siblings('p').text().trim(),
       synopsis: $("h2:contains('Synopsis')").parent().text().replace('Synopsis', '')
-        .trim(),
+        .trim()
     };
+
+
+    if (airedMatch !== null) {
+      switch (airedMatch[2]) {
+        case 'JST':
+          timeZone = 'GMT+09:00';
+          break;
+      }
+      result.aired = new Date(airedMatch[1] + ' 00:00:00 ' + timeZone);
+    }
 
     return new Episode(result);
   }

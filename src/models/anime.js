@@ -23,7 +23,7 @@ class Anime {
     return request(this.episodesLink).then(resp => {
       const $ = cheerio.load(resp.body);
 
-      const episodes = $('table.episode_list tr.episode-list-data').map((i, el) => (
+      const episodes = $('table.episode_list.ascend tr.episode-list-data').map((i, el) => (
         new Episode({
           alt: $(el).find('.episode-title span').text().trim(),
           name: $(el).find('.episode-title a').text().trim(),
@@ -94,18 +94,44 @@ class Anime {
       },
 
       synopsis: $("h2:contains('Synopsis')").next('span').text(),
-    };
 
-    const adaptations = $("h2:contains('Related Anime')").next('table').find('tr').map((i, el) => (
-      {
+      studios: utils.parseSidebar($, 'Studios', true),
+
+      adaptations: $("h2:contains('Related Anime')").next('table').find('tr').map((i, el) => ({
         type: $(el).find('td').eq(0).text()
           .slice(0, -1),
         name: $(el).find('td').eq(1).text()
           .split(','),
-      }
-    ));
+      }))
+      .get(),
 
-    result.adaptations = adaptations.get();
+      characters: $('h2:contains("Characters & Voice Actors")')
+        .nextAll('table')
+        .find('td:nth-child(2) a[href*="/character/"]')
+        .map((i, el) => {
+          const actorEl = $(el).parent('td').next().find('a');
+          const character = {
+            name: $(el).text(),
+            role: $(el).next().text(),
+            actor: $(actorEl).text(),
+            language: $(actorEl).siblings('small').text(),
+          };
+          return character;
+        })
+        .get(),
+
+      staff: $('h2:contains("Staff")')
+        .nextAll('table')
+        .find('td:nth-child(2) a[href*="/people/"]')
+        .map((i, el) => {
+          const row = {
+            name: $(el).text(),
+            role: $(el).siblings('small').text().split(', '),
+          };
+          return row;
+        })
+        .get(),
+    };
 
     return new Anime(result);
   }
@@ -115,7 +141,7 @@ class Anime {
     .then(resp => (
       new Promise((resolve) => {
         parser.parseString(resp.body, (err, parsed) => {
-          if (typeof parsed.error !== 'undefined') {
+          if (typeof parsed.error !== 'undefined' || parsed.length === 0) {
             resolve(null);
           }
           resolve(parsed);

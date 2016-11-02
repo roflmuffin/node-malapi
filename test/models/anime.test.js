@@ -1,5 +1,4 @@
 import test from 'ava';
-const expect = require('expect.js');
 
 const Anime = require('../../src/models/anime');
 const helper = require('../helper');
@@ -46,5 +45,33 @@ test('can view a valid users list', t => (
 test('an invalid users list is null', t => (
   Anime.getList(helper.TEST_LIST_INVALID).then(list => {
     t.is(list, null);
+  })
+));
+
+test('can view adaptations', t => (
+  Anime.fromId(helper.TEST_ANIME_ID).then(anime => {
+    t.truthy(typeof anime.adaptations.length !== 'undefined');
+    t.truthy(anime.adaptations.length > 0);
+  })
+));
+
+test('can view staff', t => (
+  Anime.fromId(helper.TEST_ANIME_ID).then(anime => {
+    t.truthy(typeof anime.staff.length !== 'undefined');
+    t.truthy(anime.staff.length > 0);
+  })
+));
+
+test('can view characters', t => (
+  Anime.fromId(helper.TEST_ANIME_ID).then(anime => {
+    t.truthy(typeof anime.characters.length !== 'undefined');
+    t.truthy(anime.characters.length > 0);
+  })
+));
+
+test('can view studios', t => (
+  Anime.fromId(helper.TEST_ANIME_ID).then(anime => {
+    t.truthy(typeof anime.studios.length !== 'undefined');
+    t.truthy(anime.studios.length > 0);
   })
 ));
