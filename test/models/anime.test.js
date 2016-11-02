@@ -73,6 +73,5 @@ test('can view studios', t => (
   Anime.fromId(helper.TEST_ANIME_ID).then(anime => {
     t.truthy(typeof anime.studios.length !== 'undefined');
     t.truthy(anime.studios.length > 0);
-    console.log(anime)
   })
 ));
