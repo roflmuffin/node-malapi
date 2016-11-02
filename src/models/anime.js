@@ -2,11 +2,17 @@ const Episode = require('./episode');
 
 const cheerio = require('cheerio');
 const debug = require('debug')('malapi:anime');
+const xml2js = require('xml2js');
 
 const request = require('../util/request');
 const utils = require('../util/parsing');
 
 const searchUrl = '/anime.php?c[]=a&c[]=b&c[]=c&c[]=d&c[]=e&c[]=f&c[]=g';
+
+const parser = new xml2js.Parser({
+  explicitRoot: false,
+  explicitArray: false,
+});
 
 class Anime {
   constructor(object) {
@@ -105,8 +111,8 @@ class Anime {
       .nextAll('table')
       .find('td:nth-child(2) a[href*="/character/"]')
       .map((i, el) => {
-        var actorEl = $(el).parent('td').next().find('a');
-        var character = {
+        const actorEl = $(el).parent('td').next().find('a');
+        const character = {
           name: $(el).text(),
           role: $(el).next().text(),
           actor: $(actorEl).text(),
@@ -121,22 +127,36 @@ class Anime {
       .nextAll('table')
       .find('td:nth-child(2) a[href*="/people/"]')
       .map((i, el) => {
-        var staff = {
+        const row = {
           name: $(el).text(),
           role: $(el).siblings('small').text().split(', '),
         };
-        return staff;
+        return row;
       });
 
     result.staff = staff.get();
 
-    const studios = $('span:contains("Studios:")').nextAll('a').map((i, el) => {
-      return $(el).text()
-    });
+    const studios = $('span:contains("Studios:")').nextAll('a').map((i, el) =>
+      $(el).text()
+    );
 
     result.studios = studios.get();
 
     return new Anime(result);
+  }
+
+  static getList(username) {
+    return request('/malappinfo.php', { query: { u: username, status: 'all', type: 'anime' } })
+    .then(resp => (
+      new Promise((resolve) => {
+        parser.parseString(resp.body, (err, parsed) => {
+          if (typeof parsed.error !== 'undefined') {
+            resolve(null);
+          }
+          resolve(parsed);
+        });
+      })
+    ));
   }
 
   static fromUrl(url) {
