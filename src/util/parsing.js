@@ -1,10 +1,10 @@
 function parseSidebar($, term, split = false) {
-  const el = $(`span:contains("${term}:")`).get(0);
-  if (typeof el !== 'undefined') {
+  const el = $(`span:contains("${term}:")`);
+  if (typeof el !== 'undefined' && el.length > 0) {
     if (split) {
-      return el.nextSibling.nodeValue.trim().split(',');
+      return el.next().text().trim().split(',');
     }
-    return el.nextSibling.nodeValue.trim();
+    return el.next().text().trim();
   }
   return null;
 }
