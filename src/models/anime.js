@@ -150,7 +150,7 @@ class Anime {
     .then(resp => (
       new Promise((resolve) => {
         parser.parseString(resp.body, (err, parsed) => {
-          if (typeof parsed.error !== 'undefined') {
+          if (typeof parsed.error !== 'undefined' || parsed.length === 0) {
             resolve(null);
           }
           resolve(parsed);
